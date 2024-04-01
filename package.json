@@ -1,0 +1,19 @@
+{
+  "name": "hey-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/typescript/bin/tsc && node ./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/JoshuaZacek/Hey-Backend"
+  },
+  "author": "Joshua Zacek",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.3"
+  }
+}
