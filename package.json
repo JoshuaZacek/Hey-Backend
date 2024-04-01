@@ -2,7 +2,7 @@
   "name": "hey-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "build/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "./node_modules/typescript/bin/tsc && node ./build/index.js"
@@ -15,9 +15,12 @@
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/pg": "^8.11.4",
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.11.4"
   }
 }
