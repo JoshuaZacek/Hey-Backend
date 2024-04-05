@@ -1,16 +1,16 @@
-// Libraries
+// Imports/Libraries
 import express from "express";
 import "dotenv/config";
-import { db } from "./db/index.js";
+import db from "./database/index.js";
+import users from "./routes/users.js";
 
 // Express Config
 const app = express();
 const port = 8080;
+app.use(express.json());
 
 // Routes
-app.get("/index", (req, res) => {
-  res.send("Hello, World!");
-});
+app.use("/users", users);
 
 // Connect to PostgreSQL database
 await db.connect();
