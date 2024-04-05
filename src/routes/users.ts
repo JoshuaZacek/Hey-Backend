@@ -3,12 +3,14 @@ import { Request, Response, Router } from "express";
 import is_valid_email from "../functions/is_valid_email.js";
 import is_valid_url from "../functions/is_valid_url.js";
 import is_object_empty from "../functions/is_object_empty.js";
+import Users from "../database/users.js";
+import { DatabaseError } from "pg";
 
 // Create Express.js router
 const router = Router();
 
-// Create User Account
-router.post("/create", (req: Request, res: Response) => {
+// Create User
+router.post("/create", async (req: Request, res: Response) => {
   // Get request parameters
   const email = req.body?.email;
   const name = req.body?.name;
@@ -41,9 +43,23 @@ router.post("/create", (req: Request, res: Response) => {
   // Send error messages for failed validations
   if (!is_object_empty(errors)) {
     return res.status(400).send(errors);
-  } else {
-    return res.send("All Good.");
   }
+
+  // Create User
+  try {
+    await Users.create(email, name, avatar);
+  } catch (error) {
+    const database_error = error as DatabaseError;
+
+    if (database_error.code == 23505) {
+      errors.email = "Email Is Already In Use. Please Use A Different Email.";
+      return res.status(400).send(errors);
+    }
+
+    return res.status(500).send("Something Went Wrong On Our Side. Please Try Again.");
+  }
+
+  return res.send(`User '${name}' Created.`);
 });
 
 export default router;
