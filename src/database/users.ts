@@ -16,4 +16,17 @@ export default class Users {
 
     return user;
   }
+
+  static async find_by_email(email: string) {
+    const query = "SELECT * FROM Users WHERE Email = $1";
+
+    const { rows } = await db.query(query, [email]); // Only 1 row is returned
+    const user = rows[0];
+
+    if (rows.length == 0) {
+      return null;
+    } else {
+      return user;
+    }
+  }
 }
