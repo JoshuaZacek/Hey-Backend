@@ -19,6 +19,11 @@ router.use(async (req, res, next) => {
     return res.status(403).send("Session Has Expired.");
   }
 
+  // Session is unverified
+  if (!session.verified) {
+    return res.sendStatus(403).send("Session Is Unverified.");
+  }
+
   // Session is valid
   res.locals.session = session;
   next();

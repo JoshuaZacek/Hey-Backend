@@ -126,12 +126,16 @@ router.post("/verify", async (req: Request, res: Response) => {
   res.send("Your Session Is Now Verified.");
 });
 
-router.use(verified_session);
-
 router.delete("/delete", async (req: Request, res: Response) => {
-  const session = res.locals.session;
+  const session_id = req.cookies.session;
 
-  await Sessions.delete(session.session_id);
+  // Session ID Validation
+  if (is_empty(session_id)) {
+    res.status(403).send("Session ID Cookie Is Required.");
+  }
+
+  // Delete Session In DB And Cookie
+  await Sessions.delete(session_id);
   res.clearCookie("session");
 
   return res.sendStatus(204);
