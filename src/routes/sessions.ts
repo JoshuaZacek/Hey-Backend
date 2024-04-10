@@ -8,6 +8,7 @@ import Verification_Codes from "../database/verification_codes.js";
 import send_email from "../functions/send_email.js";
 import is_type_correct from "../functions/is_type_correct.js";
 import is_empty from "../functions/is_empty.js";
+import verified_session from "../functions/verified_session.js";
 
 // Create Express.js router
 const router = Router();
@@ -123,6 +124,17 @@ router.post("/verify", async (req: Request, res: Response) => {
   // Verify Session
   await Sessions.verify(session_id);
   res.send("Your Session Is Now Verified.");
+});
+
+router.use(verified_session);
+
+router.delete("/delete", async (req: Request, res: Response) => {
+  const session = res.locals.session;
+
+  await Sessions.delete(session.session_id);
+  res.clearCookie("session");
+
+  return res.sendStatus(204);
 });
 
 export default router;

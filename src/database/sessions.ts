@@ -40,4 +40,17 @@ export default class Sessions {
     // Save Changes
     Transcation.commit();
   }
+
+  static async delete(session_id: string) {
+    await db.query("DELETE FROM Sessions WHERE Session_ID = $1", [session_id]);
+  }
+
+  static async find_by_id(session_id: string) {
+    const { rows } = await db.query("SELECT * FROM Sessions WHERE Session_ID = $1", [
+      session_id,
+    ]);
+    const session = rows[0];
+
+    return session;
+  }
 }

@@ -6,12 +6,19 @@ import db from "./database/index.js";
 import users from "./routes/users.js";
 import sessions from "./routes/sessions.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // Express Config
 const app = express();
 const port = 8080;
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.CORS,
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/users", users);
