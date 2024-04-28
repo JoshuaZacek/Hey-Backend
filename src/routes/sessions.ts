@@ -8,7 +8,6 @@ import Verification_Codes from "../database/verification_codes.js";
 import send_email from "../functions/send_email.js";
 import is_type_correct from "../functions/is_type_correct.js";
 import is_empty from "../functions/is_empty.js";
-import verified_session from "../functions/verified_session.js";
 
 // Create Express.js router
 const router = Router();
@@ -85,7 +84,7 @@ router.post("/verify", async (req: Request, res: Response) => {
   } else if (is_empty(code)) {
     errors.code = "Code Is Required.";
   } else if (code < 100000 || code > 999999) {
-    errors.code = "Code Must Be Between 100,000 And 999,999.";
+    errors.code = "Code Is Out Of Range.";
   }
 
   // Session ID Validation

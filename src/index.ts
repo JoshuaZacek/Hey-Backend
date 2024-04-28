@@ -5,6 +5,7 @@ import "dotenv/config";
 import db from "./database/index.js";
 import users from "./routes/users.js";
 import sessions from "./routes/sessions.js";
+import friendships from "./routes/friendships.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -23,6 +24,7 @@ app.use(
 // Routes
 app.use("/users", users);
 app.use("/sessions", sessions);
+app.use("/friendships", friendships);
 
 // Express Error Handling
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {

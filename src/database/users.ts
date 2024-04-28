@@ -29,4 +29,17 @@ export default class Users {
       return user;
     }
   }
+
+  static async find_by_code(code: number) {
+    const query = "SELECT * FROM Users WHERE Code = $1";
+
+    const { rows } = await db.query(query, [code]);
+    const user = rows[0]; // Only 1 or no results are returned, so rows[0] either gives addressee or 'undefined'
+
+    if (rows.length == 0) {
+      return null;
+    } else {
+      return user;
+    }
+  }
 }
