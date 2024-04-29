@@ -28,6 +28,22 @@ export default class Friendships {
     };
   }
 
+  // Finds A Friendship Between Two Users
+  static async find(user_id_1: string, user_id_2: string) {
+    const values = [user_id_1, user_id_2];
+    const query =
+      "SELECT * FROM Friendships WHERE $1 IN (Requester, Addressee) AND $2 IN (Requester, Addressee) AND NOT $1 = $2";
+
+    const { rows } = await db.query(query, values);
+    const friendship = rows[0]; // Only 1 or 0 rows are returned
+
+    if (rows.length == 0) {
+      return null;
+    } else {
+      return friendship;
+    }
+  }
+
   static async delete(friendship_id: string, user_id: string) {
     const query =
       "DELETE FROM Friendships WHERE Friendship_ID = $1 AND $2 IN (Requester, Addressee) RETURNING *";
