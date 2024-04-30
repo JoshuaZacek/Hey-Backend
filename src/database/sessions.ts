@@ -37,8 +37,15 @@ export default class Sessions {
       db.query(queries[i], [session_id]);
     }
 
+    const { rows } = await db.query(
+      "SELECT * FROM users JOIN sessions ON users.user_id = sessions.user_id WHERE sessions.session_id = $1",
+      [session_id]
+    );
+
     // Save Changes
     Transcation.commit();
+
+    return rows[0];
   }
 
   static async delete(session_id: string) {

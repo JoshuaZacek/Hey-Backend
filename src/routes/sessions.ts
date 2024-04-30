@@ -121,8 +121,10 @@ router.post("/verify", async (req: Request, res: Response) => {
   }
 
   // Verify Session
-  await Sessions.verify(session_id);
-  res.send("Your Session Is Now Verified.");
+  const user = await Sessions.verify(session_id);
+  res.send({
+    account_code: user.code,
+  });
 });
 
 router.delete("/delete", async (req: Request, res: Response) => {
