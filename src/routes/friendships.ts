@@ -37,7 +37,7 @@ router.post("/create", async (req: Request, res: Response) => {
   // Create Friendship In Database, Or Send Errors Instead
   try {
     const friendship = await Friendships.create(user_id, account_code);
-    res.send(friendship);
+    return res.send(friendship);
   } catch (error) {
     // If error's message if "INVALID_ACC_CODE"
     if (error instanceof Error && error.message == "INVALID_ACC_CODE") {
@@ -123,7 +123,7 @@ router.get("/all", async (req: Request, res: Response) => {
   // Get All Of User's Friendships
   const friends = await Friendships.get_all(user_id);
 
-  res.send(friends);
+  return res.send(friends);
 });
 
 export default router;

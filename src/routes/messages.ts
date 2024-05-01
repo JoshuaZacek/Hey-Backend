@@ -73,7 +73,7 @@ router.post("/get", async (req: Request, res: Response) => {
   // Get Messages And Next Cursor
   const messages_and_next_cursor = await Messages.get(user_id, friend_id, 25, cursor);
 
-  res.send(messages_and_next_cursor);
+  return res.send(messages_and_next_cursor);
 });
 
 export default router;

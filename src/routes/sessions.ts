@@ -64,7 +64,7 @@ router.post("/create", async (req: Request, res: Response) => {
     expires: session.expires,
     httpOnly: true,
     sameSite: "strict",
-    secure: true,
+    secure: process.env.PROD == "true",
   });
 
   return res.status(200).send("Session Created.");
@@ -122,7 +122,7 @@ router.post("/verify", async (req: Request, res: Response) => {
 
   // Verify Session
   const user = await Sessions.verify(session_id);
-  res.send({
+  return res.send({
     account_code: user.code,
   });
 });
@@ -132,7 +132,7 @@ router.delete("/delete", async (req: Request, res: Response) => {
 
   // Session ID Validation
   if (is_empty(session_id)) {
-    res.status(403).send("Session ID Cookie Is Required.");
+    return res.status(403).send("Session ID Cookie Is Required.");
   }
 
   // Delete Session In DB And Cookie
