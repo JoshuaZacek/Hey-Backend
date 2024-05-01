@@ -64,7 +64,7 @@ router.post("/create", async (req: Request, res: Response) => {
     expires: session.expires,
     httpOnly: true,
     sameSite: "strict",
-    // secure: true
+    secure: true,
   });
 
   return res.status(200).send("Session Created.");

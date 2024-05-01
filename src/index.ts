@@ -78,13 +78,4 @@ wss.on("connection", async (ws, req) => {
 
   // Add this websocket to user's array of websockets
   websockets.get(user_id).push(ws);
-
-  // ws.on("error", console.error);
-
-  // ws.on("message", (data) => {
-  //   console.log("Session ID: %s", session_id);
-  //   console.log("Received: %s", data);
-  // });
-
-  // ws.send("d");
 });
