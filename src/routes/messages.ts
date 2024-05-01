@@ -5,6 +5,7 @@ import non_pending_friendship_or_group_chat_member from "../functions/non_pendin
 import is_type_correct from "../functions/is_type_correct.js";
 import is_empty from "../functions/is_empty.js";
 import Messages from "../database/messages.js";
+import { websockets } from "../index.js";
 
 // Create Express.js router
 const router = Router();
@@ -40,6 +41,11 @@ router.post("/create", async (req: Request, res: Response) => {
 
   // Create message in database, and sent it back to user
   const message = await Messages.create(user_id, friend_id, message_text, group_chat);
+
+  const receiver_websockets = websockets.get(friend_id);
+  for (const i in receiver_websockets) {
+    receiver_websockets[i].send(JSON.stringify(message));
+  }
 
   return res.send(message);
 });

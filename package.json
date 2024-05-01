@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/typescript/bin/tsc && node ./build/index.js"
+    "start": "./node_modules/typescript/bin/tsc && node ./build/index.js",
+    "build": "./node_modules/typescript/bin/tsc"
   },
   "repository": {
     "type": "git",
@@ -21,13 +22,17 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@types/cookie": "^0.6.0",
     "@types/cors": "^2.8.17",
+    "@types/ws": "^8.5.10",
+    "cookie": "^0.6.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "nodemailer": "^6.9.13",
-    "pg": "^8.11.4"
+    "pg": "^8.11.4",
+    "ws": "^8.17.0"
   }
 }
