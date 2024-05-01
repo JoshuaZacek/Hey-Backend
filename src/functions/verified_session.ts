@@ -10,7 +10,7 @@ router.use(async (req, res, next) => {
   const [status, data] = await check_session_id(req.cookies.session);
 
   if (status == "error") {
-    res.status(403).send(data);
+    return res.status(403).send(data);
   }
 
   // Session is valid
