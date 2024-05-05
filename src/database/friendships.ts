@@ -53,9 +53,9 @@ export default class Friendships {
 
     if (rows.length == 0) {
       // If No Records Were Deleted, That Means Friendship Couldn't Be Found, Or User Isn't A Part Of Friendship
-      return false;
+      return null;
     } else {
-      return true;
+      return rows[0];
     }
   }
 

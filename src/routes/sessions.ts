@@ -120,11 +120,10 @@ router.post("/verify", async (req: Request, res: Response) => {
       .send("Code You Provided Doesn't Match Code That Was Sent To Your Email.");
   }
 
-  // Verify Session
+  // Verify Session and send back user details
   const user = await Sessions.verify(session_id);
-  return res.send({
-    account_code: user.code,
-  });
+
+  return res.send(user);
 });
 
 router.delete("/delete", async (req: Request, res: Response) => {

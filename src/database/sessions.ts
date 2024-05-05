@@ -53,9 +53,10 @@ export default class Sessions {
   }
 
   static async find_by_id(session_id: string) {
-    const { rows } = await db.query("SELECT * FROM Sessions WHERE Session_ID = $1", [
-      session_id,
-    ]);
+    const { rows } = await db.query(
+      "SELECT s.Session_ID, json_build_object('user_id', u.user_id, 'name', u.name, 'avatar', u.avatar) AS user, s.Expires, s.Verified FROM Sessions s JOIN Users u ON s.User_ID = u.User_ID WHERE s.Session_ID = $1",
+      [session_id]
+    );
     const session = rows[0];
 
     return session;

@@ -5,7 +5,7 @@ import non_pending_friendship_or_group_chat_member from "../functions/non_pendin
 import is_type_correct from "../functions/is_type_correct.js";
 import is_empty from "../functions/is_empty.js";
 import Messages from "../database/messages.js";
-import { websockets } from "../index.js";
+import send_websocket_message from "../functions/send_websocket_message.js";
 
 // Create Express.js router
 const router = Router();
@@ -22,7 +22,7 @@ router.post("/create", async (req: Request, res: Response) => {
   const friend_id = req.body?.friend_id; // Validations on friend ID already done in non_pending_friendship_or_group_chat_member
   const message_text = req.body?.message_text;
   const group_chat = req.body?.group_chat; // Validations on group chat already done in non_pending_friendship_or_group_chat_member
-  const user_id = res.locals.session.user_id; // Get User's ID From Their Session
+  const user_id = res.locals.session.user.user_id; // Get User's ID From Their Session
 
   // Validation
   const errors: { [key: string]: string } = {};
@@ -41,17 +41,13 @@ router.post("/create", async (req: Request, res: Response) => {
 
   // Create message in database, and sent it back to user
   const message = await Messages.create(user_id, friend_id, message_text, group_chat);
-
-  const receiver_websockets = websockets.get(friend_id);
-  for (const i in receiver_websockets) {
-    receiver_websockets[i].send(JSON.stringify(message));
-  }
+  send_websocket_message(friend_id, "NEW_MESSAGE", message);
 
   return res.send(message);
 });
 
 router.post("/get", async (req: Request, res: Response) => {
-  const user_id = res.locals.session.user_id; // Get User's ID From Their Session
+  const user_id = res.locals.session.user.user_id; // Get User's ID From Their Session
   const friend_id = req.body?.friend_id; // Validations on friend ID already done in non_pending_friendship_or_group_chat_member
   const cursor = req.body?.cursor; // Cursor for pagination
 

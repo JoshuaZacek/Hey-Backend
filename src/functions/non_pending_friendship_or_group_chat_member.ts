@@ -8,7 +8,7 @@ const router = Router();
 router.use(async (req, res, next) => {
   const friend_id = req.body?.friend_id;
   const group_chat = req.body?.group_chat;
-  const user_id = res.locals.session.user_id;
+  const user_id = res.locals.session.user.user_id;
 
   // Friend ID validations
   if (!is_type_correct(friend_id, "uuid")) {
