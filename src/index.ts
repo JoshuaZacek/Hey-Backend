@@ -70,6 +70,7 @@ wss.on("connection", async (ws: CustomWebSocket, req) => {
   if (status == "error") {
     ws.send(data);
     ws.terminate();
+    return;
   }
 
   // Get user_id

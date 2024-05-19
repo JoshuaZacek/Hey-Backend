@@ -3,7 +3,7 @@ import db from "./index.js";
 import Users from "./users.js";
 
 export default class Friendships {
-  static async create(requester_user_id: string, addressee_account_code: number) {
+  static async create(requester_user_id: string, addressee_account_code: string) {
     const addressee = await Users.find_by_code(addressee_account_code);
 
     // If no user with matching account code is found/User gave their own account code

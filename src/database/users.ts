@@ -1,10 +1,10 @@
 // Imports/Libraries
 import db from "./index.js";
-import random_integer from "../functions/random_integer.js";
+import generate_account_code from "../functions/generate_account_code.js";
 
 export default class Users {
   static async create(email: string, name: string, avatar?: string) {
-    const code = random_integer(100000000000, 999999999999);
+    const code = await generate_account_code();
 
     // values is cast as type unknown[] to avoid errors with TypeScript
     const values: unknown[] = [email, name, code, avatar];
@@ -30,7 +30,7 @@ export default class Users {
     }
   }
 
-  static async find_by_code(code: number) {
+  static async find_by_code(code: string) {
     const query = "SELECT * FROM Users WHERE Code = $1";
 
     const { rows } = await db.query(query, [code]);

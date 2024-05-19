@@ -6,6 +6,7 @@ import Friendships from "../database/friendships.js";
 import is_type_correct from "../functions/is_type_correct.js";
 import is_empty from "../functions/is_empty.js";
 import send_websocket_message from "../functions/send_websocket_message.js";
+import is_valid_account_code from "../functions/is_valid_account_code.js";
 
 // Create Express.js router
 const router = Router();
@@ -20,12 +21,12 @@ router.post("/create", async (req: Request, res: Response) => {
   // Validation
   const errors: { [key: string]: string } = {};
 
-  if (!is_type_correct(account_code, "integer")) {
-    errors.account_code = "Account Code Must Be An Integer.";
+  if (!is_type_correct(account_code, "string")) {
+    errors.account_code = "Account Code Must Be A String.";
   } else if (is_empty(account_code)) {
     errors.account_code = "Account Code Is Required.";
-  } else if (account_code < 100000000000 || account_code > 999999999999) {
-    errors.account_code = "Account Code Is Out Of Range.";
+  } else if (!is_valid_account_code(account_code)) {
+    errors.account_code = "Not In Valid Account Code Format.";
   }
 
   if (!is_empty(errors)) {
@@ -48,7 +49,7 @@ router.post("/create", async (req: Request, res: Response) => {
   } catch (error) {
     // If error's message if "INVALID_ACC_CODE"
     if (error instanceof Error && error.message == "INVALID_ACC_CODE") {
-      return res.status(400).send("Invalid Account Code.");
+      return res.status(400).send("Not A Valid Account Code.");
     }
 
     // Set database_error if error handled is specifically a Database Error
