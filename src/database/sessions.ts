@@ -38,7 +38,7 @@ export default class Sessions {
     }
 
     const { rows } = await db.query(
-      "SELECT * FROM users JOIN sessions ON users.user_id = sessions.user_id WHERE sessions.session_id = $1",
+      "SELECT users.User_ID, users.Email, users.Name, users.Code, users.Avatar FROM users JOIN sessions ON users.user_id = sessions.user_id WHERE sessions.session_id = $1",
       [session_id]
     );
 

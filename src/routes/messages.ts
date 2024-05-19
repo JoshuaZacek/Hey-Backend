@@ -32,6 +32,8 @@ router.post("/create", async (req: Request, res: Response) => {
     errors.message_text = "Message Text Must Be A String.";
   } else if (is_empty(message_text)) {
     errors.message_text = "Message Text Is Required.";
+  } else if (message_text.length > 1000) {
+    errors.message_text = "Message Text Must Not Be Longer Than 1000 Characters.";
   }
 
   // Send error messages for failed validations
