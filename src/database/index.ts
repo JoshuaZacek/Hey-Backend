@@ -1,5 +1,5 @@
 import pg from "pg";
 
 export default new pg.Client({
-  database: "hey1",
+  connectionString: process.env.DATABASE_URL,
 });
