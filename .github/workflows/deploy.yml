@@ -23,6 +23,6 @@ jobs:
             cd /var/www/hey
             git pull origin main
             npm install
-            npm run migrate:up
+            DATABASE_URL=${{ secrets.DATABASE_URL }} npm run migrate:up
             npm run build
             systemctl restart hey
