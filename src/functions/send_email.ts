@@ -5,7 +5,7 @@ import { createTransport } from "nodemailer";
 const transporter = createTransport({
   host: process.env.EMAILHOST,
   port: Number(process.env.EMAILPORT),
-  secure: true,
+  secure: false,
   auth: {
     user: process.env.EMAILUSERNAME,
     pass: process.env.EMAILPASSWORD,
@@ -15,7 +15,7 @@ const transporter = createTransport({
 export default async function send_email(
   email_address: string,
   subject: string,
-  text: string
+  text: string,
 ) {
   await transporter.sendMail({
     from: process.env.EMAILUSERNAME,
